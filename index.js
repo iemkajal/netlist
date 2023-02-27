@@ -4,9 +4,9 @@ const port = 8000
 const app = express()
 let ejs = require('ejs')
 app.use(express.static('public'))
+app.use(express.urlencoded())
 app.set('view engine','ejs')
 app.set('views','views')
-
 
 var contactList = [
     {
@@ -25,19 +25,22 @@ var contactList = [
 
 app.get('/',(req,res) => {
     res.render('index',{
-        title:"project",
+        title:"index",
         list:contactList
     })
 })
 
 app.get('/project',(req,res) => {
-    res.render('index',{
+    res.render('project',{
         title:"project",
-        user:{
-            name:"kajal",
-            course:"full stack"
-        }
+        list:contactList
     })
+})
+
+app.post('/create',(req,res)=>{
+ console.log(req.body);
+ contactList.push(req.body)
+return res.redirect("back")
 })
 app.listen(port)
 console.log('express server is running @',port);
